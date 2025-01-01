@@ -12,6 +12,11 @@ services:
       - MARIADB_PASSWORD=test
       - MARIADB_DATABASE=db
       - MARIADB_ROOT_PASSWORD=root
+  downloader:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
 
 volumes:
   db-data:
