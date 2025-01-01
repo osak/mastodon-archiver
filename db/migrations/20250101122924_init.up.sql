@@ -1,0 +1,8 @@
+CREATE TABLE post_blobs (
+    id UUID PRIMARY KEY,
+    json_body TEXT NOT NULL,
+
+    -- System columns
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
