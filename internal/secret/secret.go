@@ -1,4 +1,4 @@
-package main
+package secret
 
 import (
 	"github.com/perimeterx/marshmallow"

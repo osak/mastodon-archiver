@@ -8,8 +8,8 @@ services:
     volumes:
       - db-data:/var/lib/mysql
     environment:
-      - MARIADB_USER=mastdon_archiver
-      - MARIADB_PASSWORD=
+      - MARIADB_USER=mastodon_archiver
+      - MARIADB_PASSWORD=test
       - MARIADB_DATABASE=db
       - MARIADB_ROOT_PASSWORD=root
 
