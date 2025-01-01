@@ -35,7 +35,7 @@ type Status struct {
 	Uri string `json:"uri"`
 	Content string `json:"content"`
 	Reblog *Status `json:"reblog"`
-	Application string `json:"application"`
+	Application map[string]interface{} `json:"application"`
 	Account Account `json:"account"`
 }
 
@@ -63,8 +63,8 @@ func (c *MastodonClient) GetHome() error {
 	return nil
 }
 
-func (c *MastodonClient) GetHomeRaw() ([]string, error) {
-	resp, err := c.doGet("/api/v1/timelines/home")
+func (c *MastodonClient) GetHomeRaw(minId string) ([]string, error) {
+	resp, err := c.doGet("/api/v1/timelines/home?min_id=" + minId)
 	if err != nil {
 		return nil, err
 	}
