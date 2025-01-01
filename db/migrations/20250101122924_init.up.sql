@@ -1,5 +1,5 @@
 CREATE TABLE post_blobs (
-    id UUID PRIMARY KEY,
+    status_id VARCHAR(32) NOT NULL UNIQUE,
     json_body TEXT NOT NULL,
 
     -- System columns

@@ -5,7 +5,7 @@ import (
 )
 
 type PostBlob struct {
-    Id string 
+    StatusId string 
     JsonBody string
 }
 
@@ -18,6 +18,6 @@ func NewPostBlobDao(dbx *sqlx.DB) *PostBlobDao {
 }
 
 func (dao *PostBlobDao) Insert(postBlob *PostBlob) error {
-	_, err := dao.dbx.Exec("INSERT INTO post_blobs (id, json_body) VALUES (?, ?)", postBlob.Id, postBlob.JsonBody)
+	_, err := dao.dbx.Exec("INSERT INTO post_blobs (status_id, json_body) VALUES (?, ?)", postBlob.StatusId, postBlob.JsonBody)
 	return err
 }

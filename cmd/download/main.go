@@ -11,6 +11,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/go-sql-driver/mysql"
 	"github.com/google/uuid"
 	"github.com/perimeterx/marshmallow"
 )
@@ -53,11 +54,6 @@ func main() {
 
 	postBlobs := make([]dao.PostBlob, len(postStrings))
 	for _, postString := range postStrings {
-		uuid, err := uuid.NewV7()
-		if err != nil {
-			panic(err)
-		}
-
 		var post mastodon.Status
 		if _, err := marshmallow.Unmarshal([]byte(postString), &post); err != nil {
 			println(postString)
@@ -67,8 +63,16 @@ func main() {
 			maxSeenStatusId = post.Id
 		}
 
-		postBlob := dao.PostBlob{Id: uuid.String(), JsonBody: postString}
-		postBlobDao.Insert(&postBlob)
+		postBlob := dao.PostBlob{StatusId: post.Id, JsonBody: postString}
+		if err = postBlobDao.Insert(&postBlob); err != nil {
+			var mysqlError *mysql.MySQLError
+			if errors.As(err, &mysqlError) && mysqlError.Number == 1062 {
+				fmt.Printf("Skip duplicate post %s\n", post.Id)
+				continue
+			} else {
+				panic(err)
+			}
+		}
 		postBlobs = append(postBlobs, postBlob)
 	}
 	finishedAt := time.Now()
@@ -80,5 +84,5 @@ func main() {
 		MaxSeenStatusId: maxSeenStatusId,
 	}
 	runHistoryDao.Insert(&runHistory)
-	fmt.Printf("%v\n", runHistory)
+	fmt.Printf("%+v\n", runHistory)
 }
