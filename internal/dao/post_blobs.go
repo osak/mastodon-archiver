@@ -1,3 +1,5 @@
+package dao
+
 import (
     "github.com/jmoiron/sqlx"
 )
@@ -7,9 +9,15 @@ type PostBlob struct {
     JsonBody string
 }
 
-type PostBlobDao struct {}
+type PostBlobDao struct {
+    dbx *sqlx.DB
+}
 
-func (dao *PostBlobDao) Insert(db *sqlx.DB, postBlob *PostBlob) error {
-	_, err := db.Exec("INSERT INTO post_blobs (id, json_body) VALUES (?, ?)", postBlob.Id, postBlob.JsonBody)
+func NewPostBlobDao(dbx *sqlx.DB) *PostBlobDao {
+	return &PostBlobDao{dbx: dbx}
+}
+
+func (dao *PostBlobDao) Insert(postBlob *PostBlob) error {
+	_, err := dao.dbx.Exec("INSERT INTO post_blobs (id, json_body) VALUES (?, ?)", postBlob.Id, postBlob.JsonBody)
 	return err
 }

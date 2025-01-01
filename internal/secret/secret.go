@@ -6,6 +6,11 @@ import (
 )
 
 type Secret struct {
+	DbHost string `json:"db_host"`
+	DbPort int `json:"db_port"`
+	DbUser string `json:"db_user"`
+	DbPassword string `json:"db_password"`
+	DbName string `json:"db_name"`
 	MastodonAccessToken string `json:"mastodon_access_token"`
 }
 
