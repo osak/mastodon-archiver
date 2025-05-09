@@ -64,7 +64,7 @@ func (c *MastodonClient) GetHome() error {
 }
 
 func (c *MastodonClient) GetHomeRaw(minId string) ([]string, error) {
-	resp, err := c.doGet("/api/v1/timelines/home?min_id=" + minId)
+	resp, err := c.doGet(fmt.Sprintf("/api/v1/timelines/home?min_id=%s&limit=40", minId))
 	if err != nil {
 		return nil, err
 	}
